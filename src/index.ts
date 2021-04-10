@@ -11,9 +11,21 @@ interface Link {
     url: string
 }
 
+interface VariableTransform {
+    key: string
+    from: string
+    next: VariableTransform
+}
+
+interface Definition {
+    keyword: string
+    variables: VariableTransform
+}
+
 interface Command {
     action: string
     link: Link
+    define: Definition
 }
 
 interface Token {
@@ -23,10 +35,10 @@ interface Token {
 
 const CODE_VALUE: string = `ping http://google.com/ping?r=1&g=3
 post http://google.com/ping
-get http://google.com
+get as a=key1,b=key2,c=key3 http://google.com
 head http://go{}ogle.com/
 ping http://google.com/ping?r=1&g=3
-post http://google.com/ping?r=1&g=3
+post with a,b,c http://google.com/ping?r=1&g=3
 `;
 
 let el: HTMLElement = window.document.getElementById('code');
@@ -77,8 +89,22 @@ let update = () => {
             + '</span>'
         return tokenEnd + pre.length
     }
+    let d = (variable: VariableTransform, start: number) => {
+        start = b(variable.key, 'chy', start)
+        if (variable.from !== undefined) {
+            start = b(variable.from, 'chy', start)
+        }
+        if (variable.next !== undefined) {
+            start = d(variable.next, start)
+        }
+        return start
+    }
     let c = (token: Token, start: number) => {
         start = b(token.cmd.action, 'chr', start)
+        if (token.cmd.define !== undefined) {
+            start = b(token.cmd.define.keyword, 'chr', start)
+            start = d(token.cmd.define.variables, start)
+        }
         start = b(token.cmd.link.protocol, 'chb', start)
         start = b(token.cmd.link.url, 'chp', start)
         if (token.next !== undefined) {
