@@ -15,14 +15,48 @@
             font-family: 'Fira Code', monospace;
         }
 
+        #code {
+            color: white;
+            opacity: .25;
+            margin: 0;
+        }
+
         #code:focus {
             border: none;
             outline: none;
         }
+
+        #code-bg {
+            color: gray;
+            margin: 0;
+            position: absolute;
+        }
+
+        .chr {
+            color: #D95D39;
+        }
+
+        .chp {
+            color: #B3B7EE;
+        }
+
+        .chg {
+            color: #04A777;
+        }
+
+        .chy {
+            color: #FFBA49;
+        }
+
+        .chb {
+            color: #2B59C3;
+        }
+
         .error-text {
             font-style: italic;
             color: gray;
         }
+
         .error-position {
             color: black;
             background-color: red;
@@ -32,10 +66,13 @@
 
 <body>
     <div style="margin: 1rem;">
-        <div id="code" contenteditable="true"></div>
+        <div>
+            <pre id="code-bg"></pre>
+            <pre id="code" contenteditable="true"></pre>
+        </div>
         <p>
-            =>
-            <pre id="result"></pre>
+            <span> => </span>
+        <pre id="result"></pre>
         </p>
         <script src="bundle.js"></script>
         <script src="http://localhost:35729/livereload.js"></script>

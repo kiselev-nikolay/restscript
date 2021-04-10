@@ -15,9 +15,9 @@ keyword -> "ping" {% plain %}
          | "post" {% plain %}
          | "get" {% plain %}
          | "head" {% plain %}
-protocol -> "http://" {% ()=>false %}
-          | "https://" {% ()=>true %}
-uri -> [\S]:+ {% solid %}
+protocol -> "http://" {% plain %}
+          | "https://" {% plain %}
+url -> [\S]:+ {% solid %}
 trailingWhitespace -> [\s]:+ {% nullToken %}
-link -> protocol uri {% d => {return {secure: d[0], uri: d[1]}} %}
-      | protocol uri trailingWhitespace {% d => {return {secure: d[0], uri: d[1]}} %}
+link -> protocol url {% d => {return {protocol: d[0], url: d[1]}} %}
+      | protocol url trailingWhitespace {% d => {return {protocol: d[0], url: d[1]}} %}
