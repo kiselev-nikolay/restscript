@@ -2,79 +2,96 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap">
-    <style>
-        html {
-            background-color: black;
-            color: aliceblue;
-            font-family: 'Fira Code', monospace;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap">
+  <style>
+    html {
+      background-color: black;
+      color: aliceblue;
+      font-family: 'Fira Code', monospace;
+    }
 
-        #code {
-            color: white;
-            opacity: .25;
-            margin: 0;
-        }
+    #code {
+      color: white;
+      opacity: .25;
+      margin: 0;
+    }
 
-        #code:focus {
-            border: none;
-            outline: none;
-        }
+    #code:focus {
+      border: none;
+      outline: none;
+    }
 
-        #code-bg {
-            color: gray;
-            margin: 0;
-            position: absolute;
-        }
+    #code-bg {
+      color: gray;
+      margin: 0;
+      position: absolute;
+    }
 
-        .chr {
-            color: #D95D39;
-        }
+    .chr {
+      color: #D95D39;
+    }
 
-        .chp {
-            color: #B3B7EE;
-        }
+    .chp {
+      color: #B3B7EE;
+    }
 
-        .chg {
-            color: #04A777;
-        }
+    .chg {
+      color: #04A777;
+    }
 
-        .chy {
-            color: #FFBA49;
-        }
+    .chy {
+      color: #FFBA49;
+    }
 
-        .chb {
-            color: #2B59C3;
-        }
+    .chb {
+      color: #2B59C3;
+    }
 
-        .error-text {
-            font-style: italic;
-            color: gray;
-        }
+    .error-text {
+      font-style: italic;
+      color: gray;
+    }
 
-        .error-position {
-            color: black;
-            background-color: red;
-        }
-    </style>
+    .error-position {
+      color: black;
+      background-color: red;
+    }
+
+    .button {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+  </style>
 </head>
 
 <body>
-    <div style="margin: 1rem;">
-        <div>
-            <pre id="code-bg"></pre>
-            <pre id="code" contenteditable="true"></pre>
-        </div>
-        <pre hidden id="result"></pre>
-        <pre id="syntax-error"></pre>
-        <script src="bundle.js"></script>
-        <script src="http://localhost:35729/livereload.js"></script>
+  <div style="margin: 1rem;">
+    <div>
+      <pre id="code-bg"></pre>
+      <pre id="code" contenteditable="true">
+get as author https://api.github.com/repos/kiselev-nikolay/execute.fun/commits
+set header "Authorization" "Bearer xoxb-1234-56789abcdefghijklmnop"
+post json text=author https://slack.com/api/chat.postMessage
+post params author myserver.com/ci-cd
+</pre>
     </div>
+    <pre hidden id="result"></pre>
+    <pre id="syntax-error"></pre>
+    <button class="button" onclick="RunRseCode()">Run</button>
+    <script src="bundle.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
+  </div>
 </body>
 
 </html>

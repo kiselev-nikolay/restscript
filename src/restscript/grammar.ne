@@ -32,6 +32,7 @@ str -> [\w]:+ {% solid %}
 protocol -> "http://" {% plain %}
           | "https://" {% plain %}
 url -> [\S]:+ {% solid %}
-link -> protocol url {% d => {return {protocol: d[0], url: d[1]}} %}
+link -> url {% d => {return {protocol: "", url: d[0]}} %}
+      | protocol url {% d => {return {protocol: d[0], url: d[1]}} %}
 
 escapedString -> "\"" [^"]:+ "\""
