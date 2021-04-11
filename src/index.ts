@@ -26,6 +26,9 @@ interface Command {
     action: string
     link: Link
     define: Definition
+
+    key: string
+    value: string
 }
 
 interface Token {
@@ -33,12 +36,13 @@ interface Token {
     next: Token
 }
 
-const CODE_VALUE: string = `ping http://google.com/ping?r=1&g=3
-post http://google.com/ping
+const CODE_VALUE: string = `
+set header "Authorization" "fergs3mrow3mfo"
+get http://google.com/ping
+post form a=rer,f=future http://google.com/ping
 get as a=key1,b=key2,c=key3 http://google.com
-head http://go{}ogle.com/
-ping http://google.com/ping?r=1&g=3
-post with a,b,c http://google.com/ping?r=1&g=3
+post json a,b,c http://google.com/new-user
+post params a=cat,b,c http://google.com/new-user
 `;
 
 let el: HTMLElement = window.document.getElementById('code');
@@ -49,6 +53,7 @@ let update = () => {
     let result: Token = null;
     let okLast: number = 0;
     try {
+        console.time("parser 🥽")
         let parser: Parser = new Parser(GRAMMAR);
         for (let i = 0; i < code.length; i++) {
             let state: Array<any> = parser.feed(code[i]).results;
@@ -56,9 +61,11 @@ let update = () => {
                 okLast = i;
             }
         }
+        console.timeEnd("parser 🥽")
         result = parser.finish()[0];
-    } catch {
+    } catch (e) {
         // Syntax error.
+        console.log(e);
     }
     if (result === null || result === undefined) {
         let errorText: string = '<span class="error-text">' + code.slice(
@@ -101,16 +108,22 @@ let update = () => {
     }
     let c = (token: Token, start: number) => {
         start = b(token.cmd.action, 'chr', start)
-        if (token.cmd.define !== undefined) {
-            start = b(token.cmd.define.keyword, 'chr', start)
-            start = d(token.cmd.define.variables, start)
+        if (token.cmd.key !== undefined) {
+            start = b(`"${token.cmd.key}"`, 'chg', start)
+            start = b(`"${token.cmd.value}"`, 'chg', start)
+        } else {
+            if (token.cmd.define !== undefined) {
+                start = b(token.cmd.define.keyword, 'chr', start)
+                start = d(token.cmd.define.variables, start)
+            }
+            start = b(token.cmd.link.protocol, 'chb', start)
+            start = b(token.cmd.link.url, 'chp', start)
         }
-        start = b(token.cmd.link.protocol, 'chb', start)
-        start = b(token.cmd.link.url, 'chp', start)
         if (token.next !== undefined) {
             c(token.next, start)
         }
     }
+    console.log(result)
     c(result, 0)
     document.getElementById('code-bg').innerHTML = highlightedCode
     document.getElementById('result').innerHTML = JSON.stringify(result, null, 2);
