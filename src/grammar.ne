@@ -10,11 +10,10 @@ const flatten = d => d.flat()
 main -> _ code _ {% inner %}
 code -> line {% d => {return {cmd: d[0]}} %}
       | line code {% d => {return {cmd: d[0], next: d[1]}} %}
-line -> statement {% plain %}
-      | statement "\n" {% plain %}
-statement -> _ method _ link {% d => {return {action: d[1], link: d[3]}} %}
-           | _ method _ define _ args _ link {% d => {return {action: d[1], define: {keyword: d[3], variables: d[5]}, link: d[7]}} %}
-           | _ method _ define _ escapedString _ escapedString _ {% d => {return {action: "set header", key: d[5][1].join(""), value: d[7][1].join("")}} %}
+line -> _ statement _ "\n" {% inner %}
+statement -> method _ link {% d => {return {action: d[0], link: d[2]}} %}
+           | method _ define _ args _ link {% d => {return {action: d[0], define: {keyword: d[2], variables: d[4]}, link: d[6]}} %}
+           | method _ define _ escapedString _ escapedString {% d => {return {action: "set header", key: d[4][1].join(""), value: d[6][1].join("")}} %}
 
 method -> "get" {% plain %}
         | "post" {% plain %}
@@ -33,8 +32,6 @@ str -> [\w]:+ {% solid %}
 protocol -> "http://" {% plain %}
           | "https://" {% plain %}
 url -> [\S]:+ {% solid %}
-trailingWhitespace -> [\s]:+
 link -> protocol url {% d => {return {protocol: d[0], url: d[1]}} %}
-      | protocol url trailingWhitespace {% d => {return {protocol: d[0], url: d[1]}} %}
 
 escapedString -> "\"" [^"]:+ "\""
