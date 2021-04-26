@@ -1,8 +1,8 @@
-# REST script
+# restscript
 
 ![](./about/ScreenShot1.PNG)
 
-This repository example of DSL language right in browser (serverless). REST script need to execute HTTP request with automatic get-response parsing, and simpe data posting.
+The restscript is a DSL language to simplify the programming of a series of HTTP requests. It can fit in a couple of lines a whole program which collects data from datadog and sends it to Slack, and then runs CI/CD. It's convenient for automating routine because it runs right in your browser, which means you don't even need to think about authorization, just run the code.
 
 ### This code:
 
