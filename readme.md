@@ -2,7 +2,7 @@
 
 🌱 Here's an example of a DSL on the client!
 
-✨ RESTscript implementation with a Go executor in WASM there: [github.com/kiselev-nikolay/execute.fun](https://github.com/kiselev-nikolay/execute.fun) (100% serverless 😜)
+✨ RESTscript implementation with a Go executor in WASM there: [github.com/kiselev-nikolay/execute-functions](https://github.com/kiselev-nikolay/execute-functions) (100% serverless 😜)
 
 
 
