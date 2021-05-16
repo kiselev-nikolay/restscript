@@ -1,4 +1,10 @@
-# restscript
+# RESTscript
+
+🌱 There example of DSL on client!
+
+✨ Implementation of RESTscript with executor with Go WASM there: [github.com/kiselev-nikolay/execute.fun](https://github.com/kiselev-nikolay/execute.fun) (serverless 😜)
+
+
 
 ![](./about/ScreenShot1.PNG)
 
